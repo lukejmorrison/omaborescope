@@ -16,6 +16,35 @@ omarchy plugin add https://github.com/lukejmorrison/omaborescope.git --enable --
 
 A **Scope** button appears on the right side of the bar. Click it for Watch, Photo, Record, Stop, and Disconnect. Esc closes that panel and leaves the live picture up. Stop closes the picture and the recording.
 
+Watch joins the scope on a separate NetworkManager connection named `omaborescope`. That connection does not become the default route. Disconnect drops it and brings back the Wi-Fi you were using.
+
+## Remove
+
+```bash
+omarchy plugin remove lukejmorrison.omaborescope --yes
+```
+
+Photos and clips already saved in `Pictures/OmaBorescope` and `Videos/OmaBorescope` stay where they are. To drop the scope Wi-Fi profile as well:
+
+```bash
+nmcli connection delete omaborescope
+```
+
+## Dependencies
+
+Omarchy already provides these:
+
+- NetworkManager (`nmcli`), to join the scope when you press Watch
+- `curl`, to talk to the camera
+- `mpv`, for the live picture
+- `ffmpeg`, to record a clip
+- `xdg-open`, for the Android download button
+- `notify-send`, for the photo notification
+
+## License
+
+[MIT](LICENSE).
+
 From a terminal:
 
 ```bash

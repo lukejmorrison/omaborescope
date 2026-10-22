@@ -4,6 +4,7 @@
   "name": "OmaBorescope",
   "version": "1.0.0",
   "author": "Luke Morrison",
+  "license": "MIT",
   "description": "Watch a General Tools iBorescope4 from the Omarchy bar",
   "kinds": ["bar-widget", "panel"],
   "entryPoints": {
