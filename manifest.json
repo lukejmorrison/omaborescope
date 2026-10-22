@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "lukejmorrison.omaborescope",
+  "name": "OmaBorescope",
+  "version": "1.0.0",
+  "author": "Luke Morrison",
+  "description": "Watch a General Tools iBorescope4 from the Omarchy bar",
+  "kinds": ["bar-widget", "panel"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml",
+    "panel": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "OmaBorescope",
+    "description": "Live picture from an iBorescope4",
+    "category": "Tools",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
