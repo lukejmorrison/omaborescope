@@ -1,14 +1,24 @@
-# OmaBorescope
+# Wizwam Borescope for iBorescope4 and iSNAKESCOPE
 
 ![OmaBorescope](assets/icon.png)
 
-Watch a General Tools iBorescope4 (DCiS4 / iSNAKESCOPE) from an Omarchy PC.
+Wizwam Borescope is an unofficial app for the General Tools iBorescope4, also sold as the iSNAKESCOPE (sometimes written iSnakescope). The old phone app is gone. This page is the install guide for Android and for Omarchy.
 
-The scope is its own Wi-Fi network. OmaBorescope joins `iSNAKESCOPE`, leaves your normal default route alone, and opens the live picture. Photo and Record save into `Pictures/OmaBorescope` and `Videos/OmaBorescope`.
+The scope is its own Wi-Fi network named `iSNAKESCOPE`. Click the thumbwheel and wait until the green light flashes slowly before you connect.
 
-Click the scope's thumbwheel and wait until the green light flashes slowly before you press Watch.
+## Install on Android
 
-## Install
+The Android app is the Wizwam Borescope APK. It runs on Android 8.1 and newer.
+
+1. On the phone, open the [Wizwam Borescope APK](https://github.com/lukejmorrison/omaborescope/releases/latest/download/wizwam-borescope.apk).
+2. Tap the download, then tap Install. If Android asks, allow that browser or the Files app to install unknown apps, then tap Install again.
+3. Open **Borescope**. The first time, allow it to join `iSNAKESCOPE`.
+
+The app shows the live picture and can save photos and clips.
+
+## Install on Omarchy
+
+On an Omarchy PC:
 
 ```bash
 omarchy plugin add https://github.com/lukejmorrison/omaborescope.git --enable --yes
@@ -17,6 +27,16 @@ omarchy plugin add https://github.com/lukejmorrison/omaborescope.git --enable --
 A **Scope** button appears on the right side of the bar. Click it for Watch, Photo, Record, Stop, and Disconnect. Esc closes that panel and leaves the live picture up. Stop closes the picture and the recording.
 
 Watch joins the scope on a separate NetworkManager connection named `omaborescope`. That connection does not become the default route. Disconnect drops it and brings back the Wi-Fi you were using.
+
+The **Android** button in the panel opens the APK download above.
+
+From a terminal after the plugin is installed:
+
+```bash
+~/.config/omarchy/plugins/lukejmorrison.omaborescope/bin/omaborescope watch
+```
+
+The factory Wi-Fi password from the quick start is used automatically. If you changed it on the scope, set `OMABORESCOPE_WIFI_PSK` before launching.
 
 ## Remove
 
@@ -44,17 +64,3 @@ Omarchy already provides these:
 ## License
 
 [MIT](LICENSE).
-
-From a terminal:
-
-```bash
-~/.config/omarchy/plugins/lukejmorrison.omaborescope/bin/omaborescope watch
-```
-
-The factory Wi-Fi password from the quick start is used automatically. If you changed it on the scope, set `OMABORESCOPE_WIFI_PSK` before launching.
-
-## Android app
-
-The phone app is [wizwam-borescope.apk](https://github.com/lukejmorrison/omaborescope/releases/latest/download/wizwam-borescope.apk). It runs on Android 8.1 and newer. The **Android** button in the panel opens that download.
-
-Install the APK from the file manager after it downloads. The app joins `iSNAKESCOPE` when you open it and can take photos and clips.
