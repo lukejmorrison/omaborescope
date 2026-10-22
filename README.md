@@ -1,8 +1,10 @@
-# Wizwam Borescope for iBorescope4 and iSNAKESCOPE
+# EndoScope for the DCiS4 / iBorescope4 / iSNAKESCOPE
 
 ![OmaBorescope](assets/icon.png)
 
-Wizwam Borescope is an unofficial app for the General Tools iBorescope4, also sold as the iSNAKESCOPE (sometimes written iSnakescope). The old phone app is gone. This page is the install guide for Android and for Omarchy.
+Borescope app is an unofficial app for the General Tools DCiS4 endo scope also knownas iBorescope4, with the WiFi hotspot called "iSNAKESCOPE" (sometimes written iSnakescope). The old phone app downloads but doesn't connect anymore. 
+
+This page is the install guide for Android and for Omarchy.
 
 The scope is its own Wi-Fi network named `iSNAKESCOPE`. Click the thumbwheel and wait until the green light flashes slowly before you connect.
 
