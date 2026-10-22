@@ -120,21 +120,51 @@ cmd_status() {
   else
     echo "recording=no"
   fi
+  if pid_alive "$state/watch.pid"; then
+    echo "window=open"
+  else
+    echo "window=closed"
+  fi
+  # A dead pid still counts: Esc used to quit the picture and leave this file behind.
+  if [[ -f "$state/watch.wanted" || -f "$state/watch.pid" ]]; then
+    echo "wanted=yes"
+  else
+    echo "wanted=no"
+  fi
 }
 
 cmd_watch() {
-  command -v ffplay >/dev/null || die "ffplay is not installed. It ships with ffmpeg."
+  command -v mpv >/dev/null || die "mpv is not installed."
   ensure_camera
+  touch "$state/watch.wanted"
   if pid_alive "$state/watch.pid"; then
     echo "watching=yes"
     return 0
   fi
-  setsid ffplay \
-    -window_title OmaBorescope \
-    -fflags nobuffer -flags low_delay -framedrop \
-    -probesize 32 -analyzeduration 0 \
-    "$STREAM_URL" >/dev/null 2>&1 &
+  rm -f "$state/watch.pid"
+  # ffplay quits on Esc. Esc is how this panel closes, so the picture uses mpv
+  # and Esc is ignored there. q and the window close button still quit.
+  local input="$state/mpv-input.conf"
+  printf '%s\n' 'ESC ignore' 'q quit' 'Q quit' 'CLOSE_WIN quit' >"$input"
+  setsid mpv \
+    --no-terminal \
+    --force-window=immediate \
+    --title=OmaBorescope \
+    --profile=low-latency \
+    --untimed \
+    --osc=no \
+    --osd-level=0 \
+    --input-default-bindings=no \
+    --no-input-builtin-bindings \
+    --input-vo-keyboard=yes \
+    --input-conf="$input" \
+    "$STREAM_URL" >"$state/watch.log" 2>&1 &
   echo $! >"$state/watch.pid"
+  sleep 0.4
+  if ! pid_alive "$state/watch.pid"; then
+    rm -f "$state/watch.pid"
+    die "The live picture did not open."
+  fi
   echo "watching=yes"
 }
 
@@ -175,6 +205,7 @@ cmd_stop() {
   fi
   stop_pid "$state/record.pid" INT
   stop_pid "$state/watch.pid" TERM
+  rm -f "$state/watch.wanted"
   if [[ -n "$saved" && -f "$saved" ]]; then
     echo "saved=$saved"
   else

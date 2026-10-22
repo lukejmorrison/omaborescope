@@ -14,7 +14,7 @@ Click the scope's thumbwheel and wait until the green light flashes slowly befor
 omarchy plugin add https://github.com/lukejmorrison/omaborescope.git --enable --yes
 ```
 
-A **Scope** button appears on the right side of the bar. Click it for Watch, Photo, Record, Stop, and Disconnect.
+A **Scope** button appears on the right side of the bar. Click it for Watch, Photo, Record, Stop, and Disconnect. Esc closes that panel and leaves the live picture up. Stop closes the picture and the recording.
 
 From a terminal:
 

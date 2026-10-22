@@ -12,6 +12,10 @@ Item {
     property bool opened: false
     property string scopeState: "off"
     property string recording: "no"
+    property string windowState: "closed"
+    property string wanted: "no"
+    property bool restoreWindow: false
+    property bool statusReady: false
     property string message: "Click the thumbwheel and wait for the slow green flash."
     property string errorText: ""
 
@@ -28,6 +32,7 @@ Item {
 
     function open(payloadJson) {
         opened = true
+        restoreWindow = true
         refresh()
         Qt.callLater(function() {
             if (opened)
@@ -57,14 +62,28 @@ Item {
 
     function note(line) {
         var text = String(line || "")
-        if (text.indexOf("scope=") === 0)
+        if (text.indexOf("scope=") === 0) {
             scopeState = text.substring(6)
+            statusReady = true
+        }
         else if (text.indexOf("recording=") === 0)
             recording = text.substring(10)
         else if (text.indexOf("saved=") === 0)
             message = "Saved " + text.substring(6)
+        else if (text.indexOf("window=") === 0)
+            windowState = text.substring(7)
+        else if (text.indexOf("wanted=") === 0) {
+            wanted = text.substring(7)
+            if (restoreWindow && statusReady && scopeState === "ready" && wanted === "yes" && windowState === "closed") {
+                restoreWindow = false
+                message = "Opening the live picture."
+                run(["watch"])
+            } else if (statusReady) {
+                restoreWindow = false
+            }
+        }
         else if (text.indexOf("watching=") === 0)
-            message = "Live picture is open. Press q in that window to close it."
+            message = "Live picture is open. Esc leaves it up."
         else if (text.indexOf("left=") === 0)
             message = "Left the scope Wi-Fi."
         else if (text.indexOf("opened=") === 0)
@@ -74,6 +93,7 @@ Item {
     }
 
     function refresh() {
+        statusReady = false
         statusProc.command = [scriptPath(), "status"]
         statusProc.running = true
     }
@@ -119,7 +139,17 @@ Item {
             id: keyCatcher
             anchors.fill: parent
             focus: true
-            Keys.onEscapePressed: root.dismiss()
+            Keys.onPressed: function(event) {
+                if (event.key === Qt.Key_Escape) {
+                    event.accepted = true
+                }
+            }
+            Keys.onReleased: function(event) {
+                if (event.key === Qt.Key_Escape && !event.isAutoRepeat) {
+                    event.accepted = true
+                    root.dismiss()
+                }
+            }
 
             Rectangle {
                 anchors.centerIn: parent
